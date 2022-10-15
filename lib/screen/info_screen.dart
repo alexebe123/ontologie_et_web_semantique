@@ -1,9 +1,6 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:ontologie_et_web_semantique/Notifiers/api_service.dart';
-import 'package:ontologie_et_web_semantique/model/profile_model.dart';
-import 'package:ontologie_et_web_semantique/model/test_model.dart';
+import 'package:ontologie_et_web_semantique/expaired/test_model.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
@@ -28,14 +25,112 @@ class _InfoScreenState extends State<InfoScreen> {
             SizedBox(
               height: 5.h,
             ),
+            SizedBox(
+              height: 2.h,
+            ),
+            const Text("Data in DB 1"),
+            (Provider.of<ApiService>(context, listen: false)
+                    .listDBOne
+                    .isNotEmpty)
+                ? SizedBox(
+                    height: 30.h,
+                    width: 80.w,
+                    child: ListView.separated(
+                        itemBuilder: (context, index) => Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(11),
+                                  color: Colors.grey),
+                              child: Row(children: [
+                                Text(Provider.of<ApiService>(context,
+                                        listen: false)
+                                    .listDBOne[index]
+                                    .id
+                                    .toString()),
+                                Text(Provider.of<ApiService>(context,
+                                        listen: false)
+                                    .listDBOne[index]
+                                    .name),
+                                Text(Provider.of<ApiService>(context,
+                                        listen: false)
+                                    .listDBOne[index]
+                                    .lastname),
+                                Text(Provider.of<ApiService>(context,
+                                        listen: false)
+                                    .listDBOne[index]
+                                    .age
+                                    .toString()),
+                              ]),
+                            ),
+                        separatorBuilder: (context, index) => SizedBox(
+                              height: 1.h,
+                            ),
+                        itemCount:
+                            Provider.of<ApiService>(context, listen: false)
+                                .listDBOne
+                                .length))
+                : Container(),
+            SizedBox(
+              height: 2.h,
+            ),
+            const Text("Data in DB 2"),
+            (Provider.of<ApiService>(context, listen: false)
+                    .listDBTow
+                    .isNotEmpty)
+                ? SizedBox(
+                    height: 30.h,
+                    width: 80.w,
+                    child: ListView.separated(
+                        itemBuilder: (context, index) => Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(11),
+                                  color: Colors.grey),
+                              child: Row(children: [
+                                Text(Provider.of<ApiService>(context,
+                                        listen: false)
+                                    .listDBTow[index]
+                                    .id
+                                    .toString()),
+                                Text(Provider.of<ApiService>(context,
+                                        listen: false)
+                                    .listDBTow[index]
+                                    .name),
+                                Text(Provider.of<ApiService>(context,
+                                        listen: false)
+                                    .listDBTow[index]
+                                    .lastname),
+                                Text(Provider.of<ApiService>(context,
+                                        listen: false)
+                                    .listDBTow[index]
+                                    .age
+                                    .toString()),
+                              ]),
+                            ),
+                        separatorBuilder: (context, index) => SizedBox(
+                              height: 1.h,
+                            ),
+                        itemCount:
+                            Provider.of<ApiService>(context, listen: false)
+                                .listDBTow
+                                .length))
+                : Container(),
+            SizedBox(
+              height: 2,
+            ),
             GestureDetector(
               onTap: () async {
-                /*   ProfileModel x =
+                var listOne =
                     await Provider.of<ApiService>(context, listen: false)
-                        .getProfile();
-                log(x.age.toString());*/
-                await Provider.of<ApiService>(context, listen: false)
-                    .createTest(test);
+                        .getDataDBOne();
+                var listTow =
+                    await Provider.of<ApiService>(context, listen: false)
+                        .getDataDBTow();
+                setState(() {});
+                if (listTow.length > listOne.length) {
+                  listTow =
+                      listTow.where((e) => e.id > listOne.length).toList();
+                  await Provider.of<ApiService>(context, listen: false)
+                      .updateDBOne(listTow);
+                }
               },
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 1.h),
@@ -45,11 +140,6 @@ class _InfoScreenState extends State<InfoScreen> {
                 ),
                 child: const Text("Get Profile Data"),
               ),
-            ),
-            TextField(
-              onChanged: (value) {
-                test.name = value;
-              },
             ),
           ],
         ),

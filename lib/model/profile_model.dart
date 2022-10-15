@@ -1,43 +1,48 @@
 import 'dart:developer';
 
 class ProfileModel {
-  String id = "";
+  int id = 0;
   String name = "";
   String lastname = "";
   int age = 0;
 
+  ProfileModel(
+      {required this.age,
+      required this.id,
+      required this.lastname,
+      required this.name});
   ProfileModel.empty();
 
-  ProfileModel.fromJson(Map<String, dynamic> json) {
-    try {
-      id = json["id"];
-    } catch (e) {
-      log(e.toString());
-    }
-    try {
-      lastname = json["lastname"];
-    } catch (e) {
-      log(e.toString());
-    }
-    try {
-      name = json["name"];
-    } catch (e) {
-      log(e.toString());
-    }
-    try {
-      age = int.parse(json["age"]);
-    } catch (e) {
-      log(e.toString());
-    }
+  factory ProfileModel.fromJson(Map<dynamic, dynamic> json) {
+    return ProfileModel(
+        id: int.parse(json["id"]),
+        name: json['name'],
+        age: int.parse(json["age"]),
+        lastname: json["lastname"]);
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
-    data['id'] = id;
-    data['name'] = name;
-    data['lastname'] = lastname;
-    data['age'] = age;
-
+    try {
+      data['id'] = id.toString();
+    } catch (e) {
+      log(e.toString());
+    }
+    try {
+      data['name'] = name;
+    } catch (e) {
+      log(e.toString());
+    }
+    try {
+      data['lastname'] = lastname;
+    } catch (e) {
+      log(e.toString());
+    }
+    try {
+      data['age'] = age.toString();
+    } catch (e) {
+      log(e.toString());
+    }
     return data;
   }
 }
