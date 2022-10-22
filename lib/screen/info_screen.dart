@@ -37,28 +37,63 @@ class _InfoScreenState extends State<InfoScreen> {
                     width: 80.w,
                     child: ListView.separated(
                         itemBuilder: (context, index) => Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 5.w, vertical: 1.h),
                               decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(11),
+                                  borderRadius: BorderRadius.circular(5),
                                   color: Colors.grey),
                               child: Row(children: [
-                                Text(Provider.of<ApiService>(context,
-                                        listen: false)
-                                    .listDBOne[index]
-                                    .id
-                                    .toString()),
-                                Text(Provider.of<ApiService>(context,
-                                        listen: false)
-                                    .listDBOne[index]
-                                    .name),
-                                Text(Provider.of<ApiService>(context,
-                                        listen: false)
-                                    .listDBOne[index]
-                                    .lastname),
-                                Text(Provider.of<ApiService>(context,
-                                        listen: false)
-                                    .listDBOne[index]
-                                    .age
-                                    .toString()),
+                                Text(
+                                  Provider.of<ApiService>(context,
+                                          listen: false)
+                                      .listDBOne[index]
+                                      .id
+                                      .toString(),
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 14.sp),
+                                ),
+                                SizedBox(
+                                  width: 2.w,
+                                ),
+                                Text(
+                                  Provider.of<ApiService>(context,
+                                          listen: false)
+                                      .listDBOne[index]
+                                      .name,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 14.sp),
+                                ),
+                                SizedBox(
+                                  width: 2.w,
+                                ),
+                                Text(
+                                  Provider.of<ApiService>(context,
+                                          listen: false)
+                                      .listDBOne[index]
+                                      .lastname,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 14.sp),
+                                ),
+                                SizedBox(
+                                  width: 2.w,
+                                ),
+                                Text(
+                                  Provider.of<ApiService>(context,
+                                          listen: false)
+                                      .listDBOne[index]
+                                      .age
+                                      .toString(),
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 14.sp),
+                                ),
                               ]),
                             ),
                         separatorBuilder: (context, index) => SizedBox(
@@ -81,28 +116,63 @@ class _InfoScreenState extends State<InfoScreen> {
                     width: 80.w,
                     child: ListView.separated(
                         itemBuilder: (context, index) => Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 5.w, vertical: 1.h),
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(11),
                                   color: Colors.grey),
                               child: Row(children: [
-                                Text(Provider.of<ApiService>(context,
-                                        listen: false)
-                                    .listDBTow[index]
-                                    .id
-                                    .toString()),
-                                Text(Provider.of<ApiService>(context,
-                                        listen: false)
-                                    .listDBTow[index]
-                                    .name),
-                                Text(Provider.of<ApiService>(context,
-                                        listen: false)
-                                    .listDBTow[index]
-                                    .lastname),
-                                Text(Provider.of<ApiService>(context,
-                                        listen: false)
-                                    .listDBTow[index]
-                                    .age
-                                    .toString()),
+                                Text(
+                                    Provider.of<ApiService>(context,
+                                            listen: false)
+                                        .listDBTow[index]
+                                        .id
+                                        .toString(),
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 14.sp,
+                                    )),
+                                SizedBox(
+                                  width: 2.w,
+                                ),
+                                Text(
+                                    Provider.of<ApiService>(context,
+                                            listen: false)
+                                        .listDBTow[index]
+                                        .name,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 14.sp,
+                                    )),
+                                SizedBox(
+                                  width: 2.w,
+                                ),
+                                Text(
+                                    Provider.of<ApiService>(context,
+                                            listen: false)
+                                        .listDBTow[index]
+                                        .lastname,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 14.sp,
+                                    )),
+                                SizedBox(
+                                  width: 2.w,
+                                ),
+                                Text(
+                                    Provider.of<ApiService>(context,
+                                            listen: false)
+                                        .listDBTow[index]
+                                        .age
+                                        .toString(),
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 14.sp,
+                                    )),
                               ]),
                             ),
                         separatorBuilder: (context, index) => SizedBox(
@@ -126,8 +196,9 @@ class _InfoScreenState extends State<InfoScreen> {
                         .getDataDBTow();
                 setState(() {});
                 if (listTow.length > listOne.length) {
-                  listTow =
-                      listTow.where((e) => e.id > listOne.length).toList();
+                  int index = 0;
+                  index = listOne[listOne.length - 1].id;
+                  listTow = listTow.where((e) => e.id > index).toList();
                   await Provider.of<ApiService>(context, listen: false)
                       .updateDBOne(listTow);
                 }
