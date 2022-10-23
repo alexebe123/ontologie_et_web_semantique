@@ -197,10 +197,15 @@ class _InfoScreenState extends State<InfoScreen> {
                 setState(() {});
                 if (listTow.length > listOne.length) {
                   int index = 0;
-                  index = listOne[listOne.length - 1].id;
-                  listTow = listTow.where((e) => e.id > index).toList();
-                  await Provider.of<ApiService>(context, listen: false)
-                      .updateDBOne(listTow);
+                  if (listOne.isNotEmpty) {
+                    index = listOne[listOne.length].id;
+                    listTow = listTow.where((e) => e.id > index).toList();
+                    await Provider.of<ApiService>(context, listen: false)
+                        .updateDBOne(listTow);
+                  } else {
+                    await Provider.of<ApiService>(context, listen: false)
+                        .updateDBOne(listTow);
+                  }
                 }
               },
               child: Container(

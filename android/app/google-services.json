@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "493060127727",
+    "project_id": "ontologie-et-web-semantique",
+    "storage_bucket": "ontologie-et-web-semantique.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:493060127727:android:2c67ef3a5144b77e11541a",
+        "android_client_info": {
+          "package_name": "com.example.ontologie_et_web_semantique"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "493060127727-0a1q4cerus1ni84jveef3j7k6kd5pvfi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQJ8_d0RPOCCRuc7hnA2PEQ--nBESfymM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "493060127727-0a1q4cerus1ni84jveef3j7k6kd5pvfi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

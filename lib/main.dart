@@ -3,8 +3,12 @@ import 'package:ontologie_et_web_semantique/Notifiers/providers.dart';
 import 'package:ontologie_et_web_semantique/screen/info_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+
+void main() async{
+ WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 

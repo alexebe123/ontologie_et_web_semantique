@@ -21,6 +21,13 @@ class ProfileModel {
         lastname: json["lastname"]);
   }
 
+  ProfileModel.fromJsonFire(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    age = json['age'];
+    lastname = json['lastname'];
+  }
+
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
     try {

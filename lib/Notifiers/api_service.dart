@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'dart:io';
 import 'dart:convert';
@@ -12,10 +13,13 @@ import 'package:xml/xml.dart' as xml;
 
 class ApiService extends ChangeNotifier {
   static ApiService? _instance;
+  late FirebaseFirestore firebaseFirestore;
   List<ProfileModel> listDBOne = [];
   List<ProfileModel> listDBTow = [];
 
-  ApiService._internal();
+  ApiService._internal() {
+    firebaseFirestore = FirebaseFirestore.instance;
+  }
   static ApiService get instance {
     _instance ??= ApiService._internal();
     return _instance!;
@@ -27,16 +31,6 @@ class ApiService extends ChangeNotifier {
       var y = Uri.parse(url);
       var x = await http.get(y);
       final response = x;
-      // ProfileModel list = ProfileModel.fromJson(json.decode(response.body[0][0]));
-
-      //  profileModel = EmployeeDataSource(_employees);
-
-      /*  if (response.statusCode == 200) {
-        return list
-            .map((spacecraft) => ProfileModel.fromJson(spacecraft))
-            .toList();
-      }
-      */
       return ProfileModel.fromJson(json.decode(response.body));
     } catch (e) {
       log(e.toString());
@@ -58,16 +52,6 @@ class ApiService extends ChangeNotifier {
       var y = Uri.parse(url);
       var x = await http.get(y);
       final response = x;
-      // ProfileModel list = ProfileModel.fromJson(json.decode(response.body[0][0]));
-
-      //  profileModel = EmployeeDataSource(_employees);
-
-      /*  if (response.statusCode == 200) {
-        return list
-            .map((spacecraft) => ProfileModel.fromJson(spacecraft))
-            .toList();
-      }
-      */
       return ProfileModelTow.fromXml(json.decode(response.body));
     } catch (e) {
       log(e.toString());
@@ -80,20 +64,20 @@ class ApiService extends ChangeNotifier {
         data.map((item) => ProfileModel.fromJson(item)));
   }
 
+
   Future<List<ProfileModel>> getDataDBOne() async {
     List<ProfileModel> list = [];
     try {
-      final response = await http
-          .get(Uri.parse("http://10.0.2.2/dashboard/web/getProfileDBOne.php"));
-      if (response.statusCode == 200) {
-        list = profileFromJson(response.body);
-        log(list.length.toString());
-        listDBOne = list;
-        return list;
-      } else {}
+      final data = await firebaseFirestore.collection("profile").get();
+      list = data.docs.map<ProfileModel>((doc) {
+        var map = doc.data();
+        map["\$id"] = doc.id;
+        return ProfileModel.fromJsonFire(map);
+      }).toList();
     } catch (e) {
       log(e.toString());
     }
+    listDBOne = list;
     return list;
   }
 
@@ -117,6 +101,37 @@ class ApiService extends ChangeNotifier {
   Future updateDBOne(List<ProfileModel> list) async {
     try {
       for (int i = 0; i < list.length; i++) {
+        await firebaseFirestore
+            .collection("profile")
+            .doc(list[i].id.toString())
+            .set(list[i].toJson());
+      }
+    } catch (e) {
+      log(e.toString());
+    }
+  }
+/*
+
+  Future<List<ProfileModel>> getDataDBOne() async {
+    List<ProfileModel> list = [];
+    try {
+      final response = await http
+          .get(Uri.parse("http://10.0.2.2/dashboard/web/getProfileDBOne.php"));
+      if (response.statusCode == 200) {
+        list = profileFromJson(response.body);
+        log(list.length.toString());
+        listDBOne = list;
+        return list;
+      } else {}
+    } catch (e) {
+      log(e.toString());
+    }
+    return list;
+  }
+  
+  Future updateDBOne(List<ProfileModel> list) async {
+    try {
+      for (int i = 0; i < list.length; i++) {
         String url = "http://10.0.2.2/dashboard/web/updateDBOne.php";
         final res = await http.post(Uri.parse(url), body: list[i].toJson());
         if (res.statusCode == 200) {
@@ -129,4 +144,5 @@ class ApiService extends ChangeNotifier {
       log(e.toString());
     }
   }
+  */
 }
